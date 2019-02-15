@@ -55,7 +55,7 @@ ul li a
 
 ul
 {
-	list-style-type: square;
+	list-style-type: none;
 	margin-left: 25px;
 	font-size: 14px;
 }
