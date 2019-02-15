@@ -28,5 +28,16 @@ namespace MusicStore.Controllers
                 .Take(count)
                 .ToList();
         }
-	}
+
+        public ActionResult Contact()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page";
+            return View();
+        }
+    }
 }
