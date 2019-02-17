@@ -7,32 +7,44 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div id="header">
-        <h1>ASP.NET MVC MUSIC STORE</h1>
-        <ul id="navlist">
-            <li class="first">
-                <a href="@Url.Content("~")" id="current">Home</a>
-            </li>
-            <li>
-                <a href="/Store/">Store</a>
-            </li>
-            <li>
-                @{Html.RenderAction("CartSummary", "ShoppingCart");}
-            </li>
-            <li>
-            <li>
-                <a href="@Url.Content("~/StoreManager/")">Admin</a>
-            </li>
-        </ul>
-    </div>
-    @{Html.RenderAction("GenreMenu", "Store");}
-    <div id="main">
-        @RenderBody()
-    </div>
-    <div id="footer">
-        built with <a href="http://asp.net/mvc">ASP.NET MVC 5</a>
-    </div>
+<body class="">
+    <header>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark mb-4">
+            @Html.ActionLink("ASP.NET MVC MUSIC STORE", "index", new { controller = "home" }, new { @class = "navbar-brand", id = "link-logo" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-md-center" id="navbarCollapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="first nav-item">
+                        @Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Store", "Index", "Store", new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.Action("CartSummary", "ShoppingCart")
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Admin", "Index", new { controller = "StoreManager" }, new { @class = "nav-link" })
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </nav>
+    </header>
+    <main>
+        @Html.Action("GenreMenu", "Store")
+
+        <div id="main">
+            @RenderBody()
+        </div>
+    </main>
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+            <span class="text-muted">built with <a href="http://asp.net/mvc">ASP.NET MVC 5</a></span>
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
