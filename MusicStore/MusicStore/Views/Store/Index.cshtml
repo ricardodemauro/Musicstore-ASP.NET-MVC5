@@ -14,9 +14,8 @@
     @foreach (var genre in Model)
     {
         <li>
-           @*<a href="/Store/Browse?genre=@genre.Name"> @genre.Name</a> *@ 
-            @*动态链接推荐*@
-            @Html.ActionLink(genre.Name, "Browse", new  {genre=genre.Name })
+            @*<a href="/Store/Browse?genre=@genre.Name"> @genre.Name</a> *@
+            @Html.ActionLink(genre.Name, "Browse", new { genre = genre.Name })
         </li>
     }
 </ul>

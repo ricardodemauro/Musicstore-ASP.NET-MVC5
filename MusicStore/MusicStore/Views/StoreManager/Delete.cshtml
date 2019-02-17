@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Delete</h2>
@@ -54,8 +53,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
-        //删除Delete后面的id在哪儿加入进去的呢
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
