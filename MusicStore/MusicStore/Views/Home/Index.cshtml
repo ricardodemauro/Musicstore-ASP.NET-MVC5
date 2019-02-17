@@ -3,18 +3,22 @@
     ViewBag.Title = "Index";
 }
 
-<div id="promotion">
-</div>
+<section id="promotion"></section>
+
 <h2>Music Stre Home Page</h2>
-<h3><em>Fresh</em>off the grill</h3>
+
+<h3><em>Fresh</em> off the grill</h3>
+
 <ul>
     @foreach (var album in @Model)
     {
         <li>
-            <a href="@Url.Action("Details", "Store", new { id=album.AlbumId})">
+            @*<a href="@Url.Action("Details", "Store", new { id=album.AlbumId})">
                 <img alt="@album.Title" src="@album.AlbumArtUrl" />
                 <span>@album.Title</span>
-            </a>
+            </a>\*@
+            @Html.AlbumLink(album, "details", "store")
+
         </li>
     }
 </ul>
