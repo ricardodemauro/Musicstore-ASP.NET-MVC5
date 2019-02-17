@@ -24,7 +24,7 @@ namespace MusicStore.Controllers
         public ActionResult Browse(string genre)
         {
             // Retrieve Genre and its Associated Albums from database
-            //Include("Albums")指定返回结果要包含关联Album
+            //Include("Albums")
             Genre example = storeDB.Genres.Include("Albums").Single(p => p.Name == genre);
             List<Album> albums = example.Albums;
             return View(example);

@@ -15,7 +15,6 @@ namespace Mvc3ToolsUpdateWeb_Default.Controllers
 {
     public class AccountController : Controller
     {
-
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 

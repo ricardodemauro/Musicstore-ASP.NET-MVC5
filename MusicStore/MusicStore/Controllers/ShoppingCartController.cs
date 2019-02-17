@@ -64,7 +64,6 @@ namespace MusicStore.Controllers
         }
         //
         // GET: /ShoppingCart/CartSummary
-        //返回的一个子视图  
         [ChildActionOnly]
         public ActionResult CartSummary()
         {

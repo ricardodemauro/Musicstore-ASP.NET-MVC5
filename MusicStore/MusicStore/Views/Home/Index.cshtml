@@ -13,10 +13,12 @@
     @foreach (var album in @Model)
     {
         <li>
+            <!--old version-->
             @*<a href="@Url.Action("Details", "Store", new { id=album.AlbumId})">
                 <img alt="@album.Title" src="@album.AlbumArtUrl" />
                 <span>@album.Title</span>
             </a>\*@
+            <!--newer version using html helpers-->
             @Html.AlbumLink(album, "details", "store")
 
         </li>

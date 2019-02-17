@@ -1,0 +1,6 @@
+﻿@model MusicStore.Models.Album
+
+<a href="@Url.Action("Details",new { id = Model.AlbumId })">
+    <img alt="@Model.Title" src="@Model.AlbumArtUrl" />
+    <span>@Model.Title</span>
+</a>
