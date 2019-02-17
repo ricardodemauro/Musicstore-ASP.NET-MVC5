@@ -7,11 +7,14 @@ using System.Web.Routing;
 using System.Web.Security;
 using Mvc3ToolsUpdateWeb_Default.Models;
 using MusicStore.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Mvc3ToolsUpdateWeb_Default.Controllers
 {
     public class AccountController : Controller
     {
+
+        private readonly UserManager<ApplicationUser> _userManager;
 
         //
         // GET: /Account/LogOn
@@ -91,7 +94,6 @@ namespace Mvc3ToolsUpdateWeb_Default.Controllers
 
         //
         // POST: /Account/Register
-
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
