@@ -15,8 +15,10 @@ namespace MusicStore.Tests.Controllers
         [TestMethod]
         public void Index()
         {
+            Guid.NewGuid().ToString();
+
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(new Mocks.MockAlbumRepository());
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -35,7 +37,7 @@ namespace MusicStore.Tests.Controllers
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.AreEqual("Your application description page", result.ViewBag.Message);
         }
 
         [TestMethod]
