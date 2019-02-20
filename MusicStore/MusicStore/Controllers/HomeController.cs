@@ -1,5 +1,6 @@
 ﻿using MusicStore.EntityContext;
 using MusicStore.Models;
+using MusicStore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,18 @@ namespace MusicStore.Controllers
 {
     public class HomeController : Controller
     {
-        MusicStoreEntities storeDB = new MusicStoreEntities();
+        private readonly IAlbumRepository albumRepository;
+
+        public HomeController() : this(new AlbumEFRepository())
+        {
+
+        }
+
+        public HomeController(IAlbumRepository albumRepository)
+        {
+            this.albumRepository = albumRepository;
+        }
+
         //
         // GET: /Home/
         public ActionResult Index()
@@ -21,12 +33,7 @@ namespace MusicStore.Controllers
         }
         public List<Album> GetTopSellingAlbums(int count)
         {
-            // Group the order details by album and return
-            // the albums with the highest count
-            return storeDB.Albums
-                .OrderByDescending(a => a.OrderDetails.Count())
-                .Take(count)
-                .ToList();
+            return albumRepository.GetTopSellingAlbums(count);
         }
 
         public ActionResult Contact()
