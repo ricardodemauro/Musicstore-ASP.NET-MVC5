@@ -15,6 +15,8 @@ namespace MusicStore.Tests.Controllers
         [TestMethod]
         public void Index()
         {
+            Guid.NewGuid().ToString();
+
             // Arrange
             HomeController controller = new HomeController(new Mocks.MockAlbumRepository());
 
