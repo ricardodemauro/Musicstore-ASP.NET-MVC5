@@ -15,20 +15,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-md-center" id="navbarCollapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="first nav-item">
-                        @Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Store", "Index", "Store", new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.Action("CartSummary", "ShoppingCart")
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Admin", "Index", new { controller = "StoreManager" }, new { @class = "nav-link" })
-                    </li>
-                </ul>
+                @*<ul class="nav navbar-nav navbar-right">
+                        <li class="first nav-item">
+                            @Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Store", "Index", "Store", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.Action("CartSummary", "ShoppingCart")
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Admin", "Index", new { controller = "StoreManager" }, new { @class = "nav-link" })
+                        </li>
+                    </ul>*@
+                @Html.MvcSiteMap().Menu(templateName: "_TopMenu")
                 @Html.Partial("_LoginPartial")
             </div>
         </nav>

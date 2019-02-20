@@ -1,0 +1,12 @@
+﻿@model MvcSiteMapProvider.Web.Html.Models.MenuHelperModel
+
+@using MvcSiteMapProvider.Web.Html.Models
+
+<ul class="nav navbar-nav navbar-right">
+    @foreach (SiteMapNodeModel node in Model)
+    {
+        <li class="nav-item">
+            <a href="@node.Url" class="nav-link">@node.Title</a>
+        </li>
+    }
+</ul>
