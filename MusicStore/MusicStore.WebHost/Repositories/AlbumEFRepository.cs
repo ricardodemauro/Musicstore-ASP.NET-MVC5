@@ -1,21 +1,24 @@
-﻿using System;
+﻿using MusicStore.WebHost.Data;
+using MusicStore.WebHost.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using MusicStore.EntityContext;
-using MusicStore.Models;
 
-namespace MusicStore.Repositories
+namespace MusicStore.WebHost.Repositories
 {
     public class AlbumEFRepository : IAlbumRepository
     {
-        MusicStoreEntities storeDB = new MusicStoreEntities();
+        private readonly MusicStoreDbContext _dbContext;
+
+        public AlbumEFRepository(MusicStoreDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         public List<Album> GetTopSellingAlbums(int count)
         {
             // Group the order details by album and return
             // the albums with the highest count
-            return storeDB.Albums
+            return _dbContext.Albums
                 .OrderByDescending(a => a.OrderDetails.Count())
                 .Take(count)
                 .ToList();

@@ -1,11 +1,7 @@
-﻿using MusicStore.Models;
-using System;
+﻿using MusicStore.WebHost.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MusicStore.Repositories
+namespace MusicStore.WebHost.Repositories
 {
     public interface IAlbumRepository
     {

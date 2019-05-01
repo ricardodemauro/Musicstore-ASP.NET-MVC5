@@ -6,9 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MusicStore.WebHost.Data;
+using MusicStore.WebHost.Infrastructure;
+using MusicStore.WebHost.Models;
 
 namespace MusicStore.WebHost
 {
@@ -31,8 +36,30 @@ namespace MusicStore.WebHost
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+
+            string connectionString = Configuration.GetConnectionString("Default");
+            services.AddDbContext<MusicStoreDbContext>(opts => opts.UseSqlServer(connectionString));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<MusicStoreDbContext>()
+                .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
+                .AddDefaultTokenProviders();
+
+            services.AddSession(opts =>
+            {
+                opts.Cookie.Name = Guid.NewGuid().ToString();
+                opts.Cookie.HttpOnly = true;
+                opts.Cookie.IsEssential = true;
+                opts.IdleTimeout = TimeSpan.FromMinutes(3);
+            });
+
+            services.AddOptions();
+
+            services.AddHttpContextAccessor();
+            services.AddTransient<ISessionProvider, HttpSessionProvider>();
+            services.AddTransient<IClaimsPrincipalProvider, HttpClaimsPrincipalProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +79,10 @@ namespace MusicStore.WebHost
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

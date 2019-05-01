@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using MusicStore.WebHost.Models;
 
-namespace MusicStore.WebHost.EntityContext
+namespace MusicStore.WebHost.Data
 {
-    public class MusicStoreEntities : IdentityDbContext<ApplicationUser>
+    public class MusicStoreDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Album> Albums { get; set; }
 
@@ -18,7 +18,7 @@ namespace MusicStore.WebHost.EntityContext
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
-        public MusicStoreEntities(DbContextOptions<MusicStoreEntities> options)
+        public MusicStoreDbContext(DbContextOptions<MusicStoreDbContext> options)
             : base(options)
         {
 

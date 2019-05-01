@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MusicStore.WebHost.EntityContext
+namespace MusicStore.WebHost.Data
 {
     public static class SampleData
     {
