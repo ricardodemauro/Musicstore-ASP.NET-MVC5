@@ -6,7 +6,6 @@ namespace MusicStore.WebHost.Models
 {
     public class Album
     {
-        [ScaffoldColumn(false)]
         public int AlbumId { get; set; }
 
         [DisplayName("Genre")]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MusicStore.WebHost.Data.Configurations;
 using MusicStore.WebHost.Models;
 
 namespace MusicStore.WebHost.Data
@@ -31,8 +32,10 @@ namespace MusicStore.WebHost.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Genre>().HasData(SampleData.GenreData());
-            builder.Entity<Artist>().HasData(SampleData.ArtistData());
+            builder.ApplyConfiguration(EFConfig.Genre);
+            builder.ApplyConfiguration(EFConfig.Artist);
+            builder.ApplyConfiguration(EFConfig.Album);
+
             base.OnModelCreating(builder);
         }
     }

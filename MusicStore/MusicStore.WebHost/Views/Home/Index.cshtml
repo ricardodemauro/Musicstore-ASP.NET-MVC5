@@ -1,8 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Album>
+@{
+    ViewBag.Title = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section id="promotion"></section>
+
+<h2>Music Stre Home Page</h2>
+
+<h3><em>Fresh</em> off the grill</h3>
+
+<ul>
+    @foreach (var album in @Model)
+    {
+        <li>
+            <!--old version-->
+            <a href="@Url.Action("Details", "Store", new { id=album.AlbumId})">
+                <img alt="@album.Title" src="@album.AlbumArtUrl" />
+                <span>@album.Title</span>
+            </a>\
+
+            <!--newer version using html helpers-->
+            @*@Html.AlbumLink(album, "details", "store")*@
+
+        </li>
+    }
+</ul>

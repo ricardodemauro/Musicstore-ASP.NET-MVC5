@@ -1,4 +1,4 @@
-﻿@model MusicStore.Models.Genre
+﻿@model Genre
 
 @{
     ViewBag.Title = "Browse Albums";
@@ -19,6 +19,7 @@
 
                 <!--newer version using display templates-->
                 @Html.DisplayFor(m => album, "AlbumLink")
+                
             </li>
         }
     </ul>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Infrastructure;
 using MusicStore.WebHost.Models;
@@ -60,6 +62,8 @@ namespace MusicStore.WebHost
             services.AddHttpContextAccessor();
             services.AddTransient<ISessionProvider, HttpSessionProvider>();
             services.AddTransient<IClaimsPrincipalProvider, HttpClaimsPrincipalProvider>();
+
+            //services.AddDirectoryBrowser();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +72,12 @@ namespace MusicStore.WebHost
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                //app.UseDirectoryBrowser(new DirectoryBrowserOptions
+                //{
+                //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                //    RequestPath = "/wwwroot"
+                //});
             }
             else
             {

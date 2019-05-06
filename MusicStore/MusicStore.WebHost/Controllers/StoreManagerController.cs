@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MusicStore.WebHost.Data;
+using MusicStore.WebHost.Models;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using MusicStore.Models;
-using MusicStore.EntityContext;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MusicStore.Controllers
 {
@@ -15,110 +17,111 @@ namespace MusicStore.Controllers
     [Authorize]
     public class StoreManagerController : Controller
     {
-        private MusicStoreEntities db = new MusicStoreEntities();
+        private readonly MusicStoreDbContext db;
+
+        public StoreManagerController(MusicStoreDbContext db)
+        {
+            this.db = db ?? throw new ArgumentNullException(nameof(db));
+        }
 
         // GET: /StoreManager/
-        public ActionResult Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var albums = db.Albums.Include(a => a.Artist).Include(a => a.Genre);
-            return View(albums.ToList());
+            var albums = await db.Albums
+                .Include(a => a.Artist)
+                .Include(a => a.Genre)
+                .ToListAsync(cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return View(albums);
         }
 
         // GET: /StoreManager/Details/5
-        public ActionResult Details(int? id)
+        public async Task<IActionResult> Details([FromRoute]int? id, CancellationToken cancellationToken = default)
         {
             if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Album album = db.Albums.Find(id);
+                return BadRequest();
+
+            Album album = await db.Albums.SingleAsync(x => x.AlbumId == id, cancellationToken: cancellationToken);
+
             if (album == null)
-            {
-                return HttpNotFound();
-            }
+                return NotFound();
+
             return View(album);
         }
 
         // GET: /StoreManager/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create(CancellationToken cancellationToken = default)
         {
-            //动态表达式
-            //1.传递数据到UI
-            //SelectList重要
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name");
-            ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name");
+            await BuildCreateView(cancellationToken);
+
             return View();
         }
 
         // POST: /StoreManager/Create
-        // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
-        // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album)
+        public async Task<IActionResult> Create([Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album, CancellationToken cancellationToken = default)
         {
-            //如果输入正确，符合规则则添加专辑
-            //规则来源于实体注解
-            //重定向到index
             if (ModelState.IsValid)
             {
                 db.Albums.Add(album);
-                db.SaveChanges();
+                await db.SaveChangesAsync(cancellationToken);
+
+                cancellationToken.ThrowIfCancellationRequested();
+
                 return RedirectToAction("Index");
             }
-            //否则返回Create View并且显示错误信息
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
-            ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
+            await BuildCreateView(cancellationToken);
+
             return View(album);
         }
 
         // GET: /StoreManager/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<IActionResult> Edit([FromRoute] int? id, CancellationToken cancellationToken = default)
         {
             if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Album album = db.Albums.Find(id);
+                return BadRequest();
+
+            Album album = await db.Albums.FindAsync(id, cancellationToken);
             if (album == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
-            ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
+                return NotFound();
+
+            await BuildCreateView(cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+
             return View(album);
         }
 
         // POST: /StoreManager/Edit/5
-        // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
-        // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album)
+        public async Task<IActionResult> Edit([FromRoute] int? id, [Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album, CancellationToken cancellation = default)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(album).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync(cancellation);
+
                 return RedirectToAction("Index");
             }
-            ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
-            ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
+
+            await BuildCreateView(cancellation);
+
             return View(album);
         }
 
         // GET: /StoreManager/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<IActionResult> Delete([FromRoute] int? id, CancellationToken cancellationToken = default)
         {
             if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Album album = db.Albums.Find(id);
+                return BadRequest();
+
+            Album album = await db.Albums.SingleAsync(x => x.AlbumId == id, cancellationToken: cancellationToken);
             if (album == null)
             {
-                //404方法
-                return HttpNotFound();
+                return NotFound();
             }
             return View(album);
         }
@@ -126,22 +129,24 @@ namespace MusicStore.Controllers
         // POST: /StoreManager/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed([FromRoute] int? id, CancellationToken cancellationToken = default)
         {
-            Album album = db.Albums.Find(id);
+            if (id == null)
+                return BadRequest();
+
+            Album album = await db.Albums.SingleAsync(x => x.AlbumId == id, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+
             db.Albums.Remove(album);
-            db.SaveChanges();
-            //采用重定向
+            await db.SaveChangesAsync(cancellationToken);
+
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        protected async Task BuildCreateView(CancellationToken cancellationToken = default)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            ViewBag.ArtistId = new SelectList(await db.Artists.ToListAsync(cancellationToken), "ArtistId", "Name");
+            ViewBag.GenreId = new SelectList(await db.Genres.ToListAsync(cancellationToken), "GenreId", "Name");
         }
     }
 }

@@ -13,11 +13,11 @@ namespace MusicStore.WebHost.Infrastructure
 
         Task SetDataAsync<T>(string key, T data, CancellationToken cancellationToken = default);
 
-        Task<string> GetStringAsync(string key, CancellationToken cancellationToken = default) where T : class, new();
+        Task<string> GetStringAsync(string key, CancellationToken cancellationToken = default);
 
         Task SetStringAsync(string key, string data, CancellationToken cancellationToken = default);
 
-        Task<int?> GetIntegerAsync(string key, CancellationToken cancellationToken = default) where T : class, new();
+        Task<int?> GetIntegerAsync(string key, CancellationToken cancellationToken = default);
 
         Task SetIntegerAsync(string key, int data, CancellationToken cancellationToken = default);
     }

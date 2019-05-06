@@ -1,20 +1,18 @@
-﻿@model IEnumerable<MusicStore.Models.Album>
+﻿@model IEnumerable<Album>
 
-@helper Truncate(string input, int length)
+@functions
 {
-    if (input.Length <= length)
+    string Truncate(string input, int length)
     {
-        @input
+        if (input.Length <= length)
+        {
+            return @input;
+        }
+        else
+        {
+            return string.Format("{0}...", input.Substring(0, length));
+        }
     }
-    else
-    {
-        @input.Substring(0, length)<text>...</text>
-    }
-}
-
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Index</h2>
@@ -63,57 +61,3 @@
     }
 
 </table>
-
-@*@model IEnumerable<MusicStore.Models.Album>
-
-    @{
-        ViewBag.Title = "Index";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-
-    <h2>Index</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                Artist
-            </th>
-            <th>
-                Genre
-            </th>
-            <th>
-                Title
-            </th>
-            <th>
-                Price
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Artist.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Genre.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.AlbumId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.AlbumId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.AlbumId })
-                </td>
-            </tr>
-        }
-
-    </table>*@

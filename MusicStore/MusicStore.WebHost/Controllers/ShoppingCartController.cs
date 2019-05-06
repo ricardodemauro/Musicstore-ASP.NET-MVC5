@@ -64,9 +64,9 @@ namespace MusicStore.WebHost.Controllers
             // Display the confirmation message
             var results = new ShoppingCartRemoveViewModel()
             {
-                Message = Server.HtmlEncode(albumName) + "has been removed from your shopping cart.",
-                CartTotal = cart.GetTotal(),
-                CartCount = cart.GetCount(),
+                Message = albumName+ "has been removed from your shopping cart.",
+                CartTotal = await shoppingCart.GetTotal(),
+                CartCount = await shoppingCart.GetCount(),
                 ItemCount = itemCount,
                 DeleteId = id
             };
@@ -74,12 +74,11 @@ namespace MusicStore.WebHost.Controllers
         }
         //
         // GET: /ShoppingCart/CartSummary
-        [ChildActionOnly]
-        public ActionResult CartSummary()
+        //[ChildActionOnly]
+        public ActionResult CartSummary([FromServices] ShoppingCart shoppingCart)
         {
-            var cart = ShoppingCart.GetCart(this.HttpContext);
-            ViewData["CartCount"] = cart.GetCount();
-            return PartialView(cart);
+            ViewData["CartCount"] = shoppingCart.GetCount();
+            return PartialView(shoppingCart);
         }
     }
 }

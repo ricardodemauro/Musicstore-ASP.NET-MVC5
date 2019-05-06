@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MusicStore.WebHost.Models;
@@ -7,9 +8,9 @@ namespace MusicStore.WebHost.Infrastructure.HtmlHelpers
 {
     public static class AlbumHtmlHelper
     {
-        public static MvcHtmlString AlbumLink(this HtmlHelper helper, Album album, string action, string controller)
+        public static HtmlString AlbumLink(this HtmlHelper helper, Album album, string action, string controller)
         {
-            UrlHelper urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
+            UrlHelper urlHelper = new UrlHelper(helper.ViewContext);
 
             string link = urlHelper.Action(action, controller, new { id = album.AlbumId });
 
@@ -18,7 +19,7 @@ namespace MusicStore.WebHost.Infrastructure.HtmlHelpers
                       $"<span>{album.Title}</span>" +
                   "</a>";
 
-            return new MvcHtmlString(value);
+            return new HtmlString(value);
         }
     }
 }
