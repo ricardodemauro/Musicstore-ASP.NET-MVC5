@@ -16,6 +16,7 @@ using Microsoft.Extensions.FileProviders;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Infrastructure;
 using MusicStore.WebHost.Models;
+using MusicStore.WebHost.Repositories;
 
 namespace MusicStore.WebHost
 {
@@ -64,6 +65,7 @@ namespace MusicStore.WebHost
             services.AddTransient<IClaimsPrincipalProvider, HttpClaimsPrincipalProvider>();
 
             //services.AddDirectoryBrowser();
+            services.AddTransient<IAlbumRepository, EFAlbumRepository>(ctx => new EFAlbumRepository(ctx.GetService<MusicStoreDbContext>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

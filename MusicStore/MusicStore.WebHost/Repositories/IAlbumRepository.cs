@@ -5,6 +5,6 @@ namespace MusicStore.WebHost.Repositories
 {
     public interface IAlbumRepository
     {
-        List<Album> GetTopSellingAlbums(int count);
+        IReadOnlyList<Album> GetTopSellingAlbums(int count);
     }
 }

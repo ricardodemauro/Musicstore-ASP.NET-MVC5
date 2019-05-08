@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace MusicStore.WebHost.Repositories
 {
-    public class AlbumEFRepository : IAlbumRepository
+    public class EFAlbumRepository : IAlbumRepository
     {
         private readonly MusicStoreDbContext _dbContext;
 
-        public AlbumEFRepository(MusicStoreDbContext dbContext)
+        public EFAlbumRepository(MusicStoreDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public List<Album> GetTopSellingAlbums(int count)
+        public IReadOnlyList<Album> GetTopSellingAlbums(int count)
         {
             // Group the order details by album and return
             // the albums with the highest count

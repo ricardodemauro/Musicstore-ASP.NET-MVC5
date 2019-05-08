@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Models;
+using MusicStore.WebHost.Repositories;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,9 +22,11 @@ namespace MusicStore.WebHost.Controllers
     {
         private readonly string[] _migrations = new string[] { "artists", "genres", "albums" };
 
-        public IActionResult Index()
+        public IActionResult Index(IAlbumRepository albumRepository)
         {
-            return View();
+            // Get most popular albums
+            var albums = albumRepository.GetTopSellingAlbums(5);
+            return View(albums);
         }
 
         public IActionResult Privacy()
@@ -32,7 +35,7 @@ namespace MusicStore.WebHost.Controllers
         }
 
         [HttpGet]
-        [Route("migration/{step:int}")]
+        [Route("[controller]/migration/{step:int}")]
         public async Task<IActionResult> RunMigration([FromServices] IHostingEnvironment env, int step)
         {
             if (step >= _migrations.Length)
@@ -50,11 +53,11 @@ namespace MusicStore.WebHost.Controllers
                 }
             }
 
-            return Content(sb.ToString());
+            return Content(sb.ToString(), "application/json", Encoding.UTF8);
         }
 
         [HttpGet]
-        [Route("migration/{step:int}/do")]
+        [Route("[controller]/migration/{step:int}/do")]
         public async Task<IActionResult> RunMigrationPosted([FromServices] MusicStoreDbContext context, [FromServices] IHostingEnvironment env, int step, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
