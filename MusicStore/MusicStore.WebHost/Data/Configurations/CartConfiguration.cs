@@ -13,7 +13,18 @@ namespace MusicStore.WebHost.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Cart> builder)
         {
-            builder.HasKey(x => x.RecordId);
+            builder.ToTable("Cart");
+
+            builder.HasKey(x => x.RecordId)
+                .HasName("PK_Record");
+
+            builder.Property(x => x.Count);
+
+            builder.Property(x => x.DateCreated);
+
+            builder.Ignore(x => x.CartId);
+            builder.Ignore(x => x.Album);
+            builder.Ignore(x => x.AlbumId);
         }
     }
 }

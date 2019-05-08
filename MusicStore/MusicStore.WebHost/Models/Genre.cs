@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,6 @@ namespace MusicStore.WebHost.Models
 
         public string Description { get; set; }
 
-        public List<Album> Albums { get; set; }
+        public virtual Collection<Album> Albums { get; set; }
     }
 }

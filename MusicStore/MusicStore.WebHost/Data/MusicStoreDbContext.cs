@@ -35,6 +35,10 @@ namespace MusicStore.WebHost.Data
             builder.ApplyConfiguration(EFConfig.Genre);
             builder.ApplyConfiguration(EFConfig.Artist);
             builder.ApplyConfiguration(EFConfig.Album);
+            builder.ApplyConfiguration(EFConfig.Cart);
+
+            builder.ApplyConfiguration(EFConfig.Order);
+            builder.ApplyConfiguration(EFConfig.OrderDetail);
 
             base.OnModelCreating(builder);
         }

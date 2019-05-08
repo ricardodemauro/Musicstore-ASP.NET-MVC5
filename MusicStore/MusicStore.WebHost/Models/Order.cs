@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -59,7 +60,7 @@ namespace MusicStore.WebHost.Models
         [ScaffoldColumn(false)]
         public decimal Total { get; set; }
 
-        public virtual List<OrderDetail> OrderDetails { get; set; }
+        public virtual Collection<OrderDetail> OrderDetails { get; set; }
 
         public string PromoCode { get; set; }
     }

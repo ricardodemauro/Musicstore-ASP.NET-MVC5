@@ -13,18 +13,16 @@ namespace MusicStore.WebHost.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Genre> builder)
         {
-            builder.HasKey(x => x.GenreId);
+            builder.ToTable("Genre");
+
+            builder.HasKey(x => x.GenreId)
+                .HasName("PK_Genre");
 
             builder.Property(x => x.Name)
                 .HasMaxLength(260);
 
             builder.Property(x => x.Description)
                 .HasMaxLength(1024);
-
-            builder.HasMany(x => x.Albums)
-                .WithOne(x => x.Genre)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasForeignKey(x => x.GenreId);
         }
     }
 }

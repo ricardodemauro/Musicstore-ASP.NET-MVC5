@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Models;
@@ -74,14 +75,66 @@ namespace MusicStore.WebHost.Controllers
                 }
             }
 
-            if (step == 0)
+            if (string.Compare("genres", _migrations[step], true) == 0)
             {
+                List<Genre> genres = new List<Genre>();
                 foreach (JObject item in array)
                 {
                     string name = item.GetValue("name").Value<string>();
 
-                    context.Genres.Add(new Genre() { Name = name });
+                    genres.Add(new Genre() { Name = name });
                 }
+                await context.Genres.AddRangeAsync(genres);
+                await context.SaveChangesAsync();
+            }
+            else if (string.Compare("artists", _migrations[step], true) == 0)
+            {
+                List<Artist> artists = new List<Artist>();
+                foreach (JObject item in array)
+                {
+                    string name = item.GetValue("name").Value<string>();
+
+                    artists.Add(new Artist() { Name = name });
+                }
+                await context.Artists.AddRangeAsync(artists);
+                await context.SaveChangesAsync();
+            }
+            else if (string.Compare("albums", _migrations[step], true) == 0)
+            {
+                Dictionary<string, Genre> genres = new Dictionary<string, Genre>();
+                Dictionary<string, Artist> artists = new Dictionary<string, Artist>();
+                List<Album> albums = new List<Album>();
+
+                foreach (JObject item in array)
+                {
+                    string name = item.GetValue("name").Value<string>();
+                    decimal price = item.GetValue("price").Value<decimal>();
+                    string albumUrl = item.GetValue("albumArtUrl").Value<string>();
+                    string artist = item.GetValue("artist").Value<string>();
+                    string genre = item.GetValue("genre").Value<string>();
+
+                    if (!genres.ContainsKey(genre))
+                    {
+                        var genDb = await context.Genres.FirstOrDefaultAsync(x => x.Name == genre);
+                        genres.Add(genre, genDb);
+                    }
+                    if (!artists.ContainsKey(artist))
+                    {
+                        var artDb = await context.Artists.FirstOrDefaultAsync(x => x.Name == artist);
+                        artists.Add(artist, artDb);
+                    }
+
+
+                    albums.Add(new Album
+                    {
+                        Title = name,
+                        Price = price,
+                        AlbumArtUrl = albumUrl,
+                        Genre = genres[genre],
+                        Artist = artists[artist]
+                    });
+                }
+                await context.Albums.AddRangeAsync(albums);
                 await context.SaveChangesAsync();
             }
 

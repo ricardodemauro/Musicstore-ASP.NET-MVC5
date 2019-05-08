@@ -13,10 +13,10 @@ namespace MusicStore.WebHost.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Album> builder)
         {
-            builder.ToTable("album");
+            builder.ToTable("Album");
 
             builder.HasKey(x => x.AlbumId)
-                .HasName("PK_album");
+                .HasName("PK_Album");
 
             builder.Property(x => x.Title)
                 .HasMaxLength(160);
@@ -26,6 +26,17 @@ namespace MusicStore.WebHost.Data.Configurations
 
             builder.Property(x => x.AlbumArtUrl)
                 .HasMaxLength(1024);
+
+
+            builder.HasOne(x => x.Genre)
+                .WithMany(x => x.Albums)
+                .HasForeignKey(x => x.GenreId)
+                .HasConstraintName("FK_Genre_Album");
+
+            builder.HasOne(x => x.Artist)
+                .WithMany(x => x.Albums)
+                .HasForeignKey(x => x.ArtistId)
+                .HasConstraintName("FK_Album_Artist");
         }
     }
 }

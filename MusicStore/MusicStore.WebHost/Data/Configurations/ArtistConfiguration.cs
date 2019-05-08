@@ -13,7 +13,10 @@ namespace MusicStore.WebHost.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Artist> builder)
         {
-            builder.HasKey(x => x.ArtistId);
+            builder.ToTable("Artist");
+
+            builder.HasKey(x => x.ArtistId)
+                .HasName("PK_Artist");
 
             builder.Property(x => x.Name)
                 .HasMaxLength(124);
