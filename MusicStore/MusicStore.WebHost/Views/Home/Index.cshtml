@@ -5,7 +5,7 @@
 
 <section id="promotion"></section>
 
-<h2>Music Stre Home Page</h2>
+<h2>Music Store Home Page</h2>
 
 <h3><em>Fresh</em> off the grill</h3>
 
@@ -17,7 +17,7 @@
             <a href="@Url.Action("Details", "Store", new { id=album.AlbumId})">
                 <img alt="@album.Title" src="@album.AlbumArtUrl" />
                 <span>@album.Title</span>
-            </a>\
+            </a>
 
             <!--newer version using html helpers-->
             @*@Html.AlbumLink(album, "details", "store")*@
