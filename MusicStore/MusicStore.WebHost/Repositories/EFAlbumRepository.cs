@@ -1,5 +1,6 @@
 ﻿using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +12,7 @@ namespace MusicStore.WebHost.Repositories
 
         public EFAlbumRepository(MusicStoreDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public IReadOnlyList<Album> GetTopSellingAlbums(int count)

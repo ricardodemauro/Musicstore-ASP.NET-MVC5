@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Models;
+using MusicStore.WebHost.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -31,15 +32,18 @@ namespace MusicStore.Controllers
         }
         //
         // GET: /Store/Browse
-        public async Task<IActionResult> Browse(string genre, CancellationToken cancellationToken = default)
+        [Route("[controller]/browse/{genreName}")]
+        public async Task<IActionResult> Browse([FromRoute] string genreName, [FromServices] IGenreRepository genreRepository, CancellationToken cancellationToken = default)
         {
-            // Retrieve Genre and its Associated Albums from database
-            //Include("Albums")
-            Genre example = await storeDB.Genres.Include("Albums").SingleAsync(p => p.Name == genre, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            IEnumerable<Album> albums = await genreRepository.AlbumsFromGenre(genreName, cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            return View(example);
+            ViewData["GenreName"] = genreName;
+
+            return View(albums);
         }
         //
         // GET: /Store/Details

@@ -1,0 +1,6 @@
+﻿@model Album
+
+<a asp-action="Details" asp-controller="Details" asp-route-id="@Model.AlbumId">
+    <img alt="@Model.Title" src="@Model.AlbumArtUrl" />
+    <span>@Model.Title</span>
+</a>
