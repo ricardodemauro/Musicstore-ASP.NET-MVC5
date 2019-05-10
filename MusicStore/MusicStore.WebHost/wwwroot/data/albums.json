@@ -49,7 +49,7 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "Górecki: Symphony No. 3",
+    "name": "GÃ³recki: Symphony No. 3",
     "genre": "Classical",
     "price": 8.99,
     "artist": "Adrian Leaper & Doreen de Feis",
@@ -101,14 +101,14 @@
     "name": "Chill: Brazil (Disc 2)",
     "genre": "Latin",
     "price": 8.99,
-    "artist": "Antônio Carlos Jobim",
+    "artist": "AntÃ´nio Carlos Jobim",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
     "name": "Warner 25 Anos",
     "genre": "Jazz",
     "price": 8.99,
-    "artist": "Antônio Carlos Jobim",
+    "artist": "AntÃ´nio Carlos Jobim",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -238,10 +238,10 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "Cássia Eller - Sem Limite [Disc 1]",
+    "name": "CÃ¡ssia Eller - Sem Limite [Disc 1]",
     "genre": "Latin",
     "price": 8.99,
-    "artist": "Cássia Eller",
+    "artist": "CÃ¡ssia Eller",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -269,14 +269,14 @@
     "name": "Afrociberdelia",
     "genre": "Latin",
     "price": 8.99,
-    "artist": "Chico Science & Nação Zumbi",
+    "artist": "Chico Science & NaÃ§Ã£o Zumbi",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
     "name": "Da Lama Ao Caos",
     "genre": "Latin",
     "price": 8.99,
-    "artist": "Chico Science & Nação Zumbi",
+    "artist": "Chico Science & NaÃ§Ã£o Zumbi",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -294,7 +294,7 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "Acústico MTV [Live]",
+    "name": "AcÃºstico MTV [Live]",
     "genre": "Reggae",
     "price": 8.99,
     "artist": "Cidade Negra",
@@ -311,7 +311,7 @@
     "name": "Na Pista",
     "genre": "Latin",
     "price": 8.99,
-    "artist": "Cláudio Zoli",
+    "artist": "ClÃ¡udio Zoli",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -455,7 +455,7 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "Elis Regina-Minha História",
+    "name": "Elis Regina-Minha HistÃ³ria",
     "genre": "Latin",
     "price": 8.99,
     "artist": "Elis Regina",
@@ -560,7 +560,7 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "Quanta Gente Veio ver--Bônus De Carnaval",
+    "name": "Quanta Gente Veio ver--BÃ´nus De Carnaval",
     "genre": "Jazz",
     "price": 8.99,
     "artist": "Gilberto Gil",
@@ -584,7 +584,7 @@
     "name": "Nielsen: The Six Symphonies",
     "genre": "Classical",
     "price": 8.99,
-    "artist": "Göteborgs Symfoniker & Neeme Järvi",
+    "artist": "GÃ¶teborgs Symfoniker & Neeme JÃ¤rvi",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -815,7 +815,7 @@
     "name": "Weill: The Seven Deadly Sins",
     "genre": "Classical",
     "price": 8.99,
-    "artist": "Kent Nagano and Orchestre de l'Opéra de Lyon",
+    "artist": "Kent Nagano and Orchestre de l'OpÃ©ra de Lyon",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -934,7 +934,7 @@
     "name": "Mais Do Mesmo",
     "genre": "Latin",
     "price": 8.99,
-    "artist": "Legião Urbana",
+    "artist": "LegiÃ£o Urbana",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -1116,14 +1116,14 @@
     "name": "Motley Crue Greatest Hits",
     "genre": "Metal",
     "price": 8.99,
-    "artist": "Mötley Crüe",
+    "artist": "MÃ¶tley CrÃ¼e",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
     "name": "Ace Of Spades",
     "genre": "Metal",
     "price": 8.99,
-    "artist": "Motörhead",
+    "artist": "MotÃ¶rhead",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -1151,7 +1151,7 @@
     "name": "Compositores",
     "genre": "Rock",
     "price": 8.99,
-    "artist": "O Terço",
+    "artist": "O TerÃ§o",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
@@ -1169,7 +1169,7 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "Acústico MTV",
+    "name": "AcÃºstico MTV",
     "genre": "Latin",
     "price": 8.99,
     "artist": "Os Paralamas Do Sucesso",
@@ -1400,7 +1400,7 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "O Samba Poconé",
+    "name": "O Samba PoconÃ©",
     "genre": "Rock",
     "price": 8.99,
     "artist": "Skank",
@@ -1659,7 +1659,7 @@
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {
-    "name": "Axé Bahia 2001",
+    "name": "AxÃ© Bahia 2001",
     "genre": "Pop",
     "price": 8.99,
     "artist": "Various Artists",
@@ -1690,7 +1690,7 @@
     "name": "Vinicius De Moraes",
     "genre": "Latin",
     "price": 8.99,
-    "artist": "Vinícius De Moraes",
+    "artist": "VinÃ­cius De Moraes",
     "albumArtUrl": "/Content/Images/placeholder.gif"
   },
   {

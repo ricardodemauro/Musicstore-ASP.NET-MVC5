@@ -43,7 +43,7 @@ namespace MusicStore.WebHost
 
 
             string connectionString = Configuration.GetConnectionString("Default");
-            services.AddDbContext<MusicStoreDbContext>(opts => opts.UseSqlServer(connectionString));
+            services.AddDbContextPool<MusicStoreDbContext>(opts => opts.UseSqlServer(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<MusicStoreDbContext>()
@@ -76,12 +76,6 @@ namespace MusicStore.WebHost
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                //app.UseDirectoryBrowser(new DirectoryBrowserOptions
-                //{
-                //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
-                //    RequestPath = "/wwwroot"
-                //});
             }
             else
             {
