@@ -67,6 +67,7 @@ namespace MusicStore.WebHost
             //services.AddDirectoryBrowser();
             services.AddTransient<IAlbumRepository, EFAlbumRepository>();
             services.AddTransient<IGenreRepository, EFGenreRepository>();
+            services.AddTransient<IOrderRepository, EFOrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

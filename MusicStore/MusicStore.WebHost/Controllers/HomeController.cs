@@ -22,10 +22,10 @@ namespace MusicStore.WebHost.Controllers
     {
         private readonly string[] _migrations = new string[] { "artists", "genres", "albums" };
 
-        public IActionResult Index([FromServices] IAlbumRepository albumRepository)
+        public async Task<IActionResult> Index([FromServices] IAlbumRepository albumRepository)
         {
             // Get most popular albums
-            var albums = albumRepository.GetTopSellingAlbums(5);
+            var albums = await albumRepository.GetTopSellingAlbums(5);
             return View(albums);
         }
 

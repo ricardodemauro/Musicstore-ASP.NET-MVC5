@@ -22,9 +22,9 @@ namespace MusicStore.Controllers
 
         //
         // GET: /Store/
-        public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Index([FromServices]IGenreRepository genreRepository, CancellationToken cancellationToken = default)
         {
-            var genres = await storeDB.Genres.ToListAsync(cancellationToken);
+            var genres = await genreRepository.ToList(cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -47,24 +47,15 @@ namespace MusicStore.Controllers
         }
         //
         // GET: /Store/Details
-        public async Task<IActionResult> Details([FromRoute] int? id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Details([FromRoute] int? id, [FromServices] IAlbumRepository albumRepository, CancellationToken cancellationToken = default)
         {
             if (id == null)
                 return BadRequest();
 
-            Album album = await storeDB.Albums.FindAsync(id, cancellationToken);
+            Album album = await albumRepository.FindAlbum(id.Value, cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
 
             return View(album);
-        }
-
-        //
-        // GET: /Store/GenreMenu
-        //[ChildActionOnly]
-        public ActionResult GenreMenu()
-        {
-            var genres = storeDB.Genres.ToList();
-            return PartialView(genres);
         }
     }
 }

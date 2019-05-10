@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Models;
+using MusicStore.WebHost.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,9 @@ namespace MusicStore.Controllers
         }
 
         // GET: /StoreManager/
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index([FromServices] IAlbumRepository albumRepository, CancellationToken cancellationToken)
         {
-            var albums = await db.Albums
-                .Include(a => a.Artist)
-                .Include(a => a.Genre)
-                .ToListAsync(cancellationToken);
+            var albums = await albumRepository.ToListWithDetails(cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -38,12 +36,12 @@ namespace MusicStore.Controllers
         }
 
         // GET: /StoreManager/Details/5
-        public async Task<IActionResult> Details([FromRoute]int? id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Details([FromRoute]int? id, [FromServices] IAlbumRepository albumRepository, CancellationToken cancellationToken = default)
         {
             if (id == null)
                 return BadRequest();
 
-            Album album = await db.Albums.SingleAsync(x => x.AlbumId == id, cancellationToken: cancellationToken);
+            Album album = await albumRepository.FindAlbum(id.Value, cancellationToken: cancellationToken);
 
             if (album == null)
                 return NotFound();
@@ -62,12 +60,11 @@ namespace MusicStore.Controllers
         // POST: /StoreManager/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album, [FromServices] IAlbumRepository albumRepository, CancellationToken cancellationToken = default)
         {
             if (ModelState.IsValid)
             {
-                db.Albums.Add(album);
-                await db.SaveChangesAsync(cancellationToken);
+                album = await albumRepository.Create(album, cancellationToken);
 
                 cancellationToken.ThrowIfCancellationRequested();
 
@@ -79,12 +76,12 @@ namespace MusicStore.Controllers
         }
 
         // GET: /StoreManager/Edit/5
-        public async Task<IActionResult> Edit([FromRoute] int? id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Edit([FromRoute] int? id, [FromServices] IAlbumRepository albumRepository, CancellationToken cancellationToken = default)
         {
             if (id == null)
                 return BadRequest();
 
-            Album album = await db.Albums.FindAsync(id, cancellationToken);
+            Album album = await albumRepository.FindAlbum(id.Value, cancellationToken);
             if (album == null)
                 return NotFound();
 
@@ -97,12 +94,11 @@ namespace MusicStore.Controllers
         // POST: /StoreManager/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromRoute] int? id, [Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album, CancellationToken cancellation = default)
+        public async Task<IActionResult> Edit([FromRoute] int? id, [FromServices] IAlbumRepository albumRepository, [Bind("AlbumId,GenreId,ArtistId,Title,Price,AlbumArtUrl")] Album album, CancellationToken cancellation = default)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(album).State = EntityState.Modified;
-                await db.SaveChangesAsync(cancellation);
+                await albumRepository.Update(album, cancellation);
 
                 return RedirectToAction("Index");
             }
@@ -113,12 +109,12 @@ namespace MusicStore.Controllers
         }
 
         // GET: /StoreManager/Delete/5
-        public async Task<IActionResult> Delete([FromRoute] int? id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Delete([FromRoute] int? id, [FromServices] IAlbumRepository albumRepository, CancellationToken cancellationToken = default)
         {
             if (id == null)
                 return BadRequest();
 
-            Album album = await db.Albums.SingleAsync(x => x.AlbumId == id, cancellationToken: cancellationToken);
+            Album album = await albumRepository.FindAlbum(id.Value, cancellationToken: cancellationToken);
             if (album == null)
             {
                 return NotFound();
@@ -129,16 +125,15 @@ namespace MusicStore.Controllers
         // POST: /StoreManager/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed([FromRoute] int? id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteConfirmed([FromRoute] int? id, [FromServices] IAlbumRepository albumRepository, CancellationToken cancellationToken = default)
         {
             if (id == null)
                 return BadRequest();
 
-            Album album = await db.Albums.SingleAsync(x => x.AlbumId == id, cancellationToken);
+            Album album = await albumRepository.FindAlbum(id.Value, cancellationToken: cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
 
-            db.Albums.Remove(album);
-            await db.SaveChangesAsync(cancellationToken);
+            await albumRepository.Delete(album);
 
             return RedirectToAction("Index");
         }
