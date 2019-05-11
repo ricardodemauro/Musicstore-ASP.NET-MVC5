@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MusicStore.SiteMap.Extensions.DependencyInjection;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Infrastructure;
+using MusicStore.WebHost.Infrastructure.Providers;
 using MusicStore.WebHost.Models;
 using MusicStore.WebHost.Repositories;
 using System;
-using MusicStore.SiteMap.Extensions.DependencyInjection;
 
 namespace MusicStore.WebHost
 {
@@ -46,6 +47,11 @@ namespace MusicStore.WebHost
                 .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
                 .AddDefaultTokenProviders();
 
+            services.AddAuthorization(opts =>
+            {
+                opts.AddPolicy(PolicyNames.ADMIN, policy => policy.RequireRole(RoleNames.ADMINISTRATOR));
+            });
+
             services.AddSession(opts =>
             {
                 opts.Cookie.Name = Guid.NewGuid().ToString();
@@ -67,7 +73,9 @@ namespace MusicStore.WebHost
             services.AddTransient<IGenreRepository, EFGenreRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
 
-            services.AddScoped(x =>
+            services.AddScoped<ShoppingCart>();
+
+            services.AddScoped<IUrlHelper>(x =>
             {
                 var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
                 var factory = x.GetRequiredService<IUrlHelperFactory>();
@@ -75,20 +83,6 @@ namespace MusicStore.WebHost
             });
 
             services.AddFileSiteMapProvider("wwwroot/mvc.sitemap");
-
-            //services.Configure<FileMapProviderOptions>(ctx =>
-            //{
-            //    ctx.File = "wwwroot/mvc.sitemap";
-            //});
-
-            //services.AddScoped<SiteMapProvider>(ctx =>
-            //{
-            //    return new FileSiteMapProvider(ctx.GetService<IOptions<FileMapProviderOptions>>(),
-            //        ctx.GetService<IHostingEnvironment>().ContentRootFileProvider,
-            //        ctx.GetService<IUrlHelper>());
-            //});
-
-            //services.Configure<RazorViewEngineOptions>
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,6 +109,10 @@ namespace MusicStore.WebHost
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

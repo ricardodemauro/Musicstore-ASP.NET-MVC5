@@ -1,0 +1,23 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewData["Title"] = "Migration";
+}
+
+<h1>Migration</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-group">
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item">
+                    <form asp-action="migration" asp-route-migrationName="@item">
+
+                        <button type="submit" class="list-group-item list-group-item-action">Create @item</button>
+                    </form>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

@@ -22,9 +22,10 @@ namespace MusicStore.WebHost.Data.Configurations
 
             builder.Property(x => x.DateCreated);
 
-            builder.Ignore(x => x.CartId);
-            builder.Ignore(x => x.Album);
-            builder.Ignore(x => x.AlbumId);
+            builder.Property(x => x.CartId);
+
+            builder.HasOne(x => x.Album);
+            //builder.Property(x => x.AlbumId);
         }
     }
 }

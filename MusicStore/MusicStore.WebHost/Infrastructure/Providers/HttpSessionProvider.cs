@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MusicStore.WebHost.Infrastructure
+namespace MusicStore.WebHost.Infrastructure.Providers
 {
     public class HttpSessionProvider : ISessionProvider
     {

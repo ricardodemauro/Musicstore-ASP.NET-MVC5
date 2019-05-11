@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MusicStore.WebHost.Data;
-using MusicStore.WebHost.Infrastructure;
+using MusicStore.WebHost.Infrastructure.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +41,7 @@ namespace MusicStore.WebHost.Models
             // Get the matching cart and album instances
             var cartItem = await _dbContext.Carts.SingleOrDefaultAsync(
                 c => c.CartId == ShoppingCartId
-                && c.AlbumId == album.AlbumId, cancellationToken);
+                && c.AlbumId == album.AlbumId, cancellationToken).ConfigureAwait(false);
 
             if (cartItem == null)
             {
@@ -55,7 +53,7 @@ namespace MusicStore.WebHost.Models
                     Count = 1,
                     DateCreated = DateTime.Now
                 };
-                _dbContext.Carts.Add(cartItem);
+                await _dbContext.Carts.AddAsync(cartItem).ConfigureAwait(false);
             }
             else
             {
@@ -111,6 +109,7 @@ namespace MusicStore.WebHost.Models
 
             return await _dbContext.Carts
                 .Where(cart => cart.CartId == ShoppingCartId)
+                .Include(x => x.Album)
                 .ToListAsync(cancellationToken);
         }
 
@@ -187,15 +186,8 @@ namespace MusicStore.WebHost.Models
             string cartSessionValue = await _session.GetStringAsync(CART_SESSION_KEY, cancellationToken);
             if (string.IsNullOrEmpty(cartSessionValue))
             {
-                if (!string.IsNullOrEmpty(principal.Identity.Name))
-                {
-                    cartSessionValue = principal.Identity.Name;
-                }
-                else
-                {
-                    // Generate a new random GUID using System.Guid class
-                    cartSessionValue = Guid.NewGuid().ToString();
-                }
+                // Generate a new random GUID using System.Guid class
+                cartSessionValue = Guid.NewGuid().ToString();
                 await _session.SetStringAsync(CART_SESSION_KEY, cartSessionValue, cancellationToken);
             }
             return cartSessionValue;

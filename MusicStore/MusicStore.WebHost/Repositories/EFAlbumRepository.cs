@@ -35,7 +35,10 @@ namespace MusicStore.WebHost.Repositories
 
         public Task<Album> FindAlbum(int albumId, CancellationToken cancellationToken = default)
         {
-            return _dbContext.Albums.FirstOrDefaultAsync(x => x.AlbumId == albumId, cancellationToken);
+            return _dbContext.Albums
+                .Include(x => x.Genre)
+                .Include(x => x.Artist)
+                .FirstOrDefaultAsync(x => x.AlbumId == albumId, cancellationToken);
         }
 
         public async Task<IReadOnlyList<Album>> GetTopSellingAlbums(int count, CancellationToken cancellationToken = default)

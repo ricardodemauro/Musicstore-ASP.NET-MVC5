@@ -13,13 +13,6 @@ namespace MusicStore.Controllers
 {
     public class StoreController : Controller
     {
-        private readonly MusicStoreDbContext storeDB;
-
-        public StoreController(MusicStoreDbContext storeDB)
-        {
-            this.storeDB = storeDB;
-        }
-
         //
         // GET: /Store/
         public async Task<IActionResult> Index([FromServices]IGenreRepository genreRepository, CancellationToken cancellationToken = default)

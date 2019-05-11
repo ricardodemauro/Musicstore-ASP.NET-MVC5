@@ -11,10 +11,7 @@
     @foreach (var album in @Model)
     {
         <li>
-            <a asp-action="details" asp-controller="store" asp-area="" asp-route-id="@album.AlbumId">
-                <img alt="@album.Title" src="@album.AlbumArtUrl" />
-                <span>@album.Title</span>
-            </a>
+            @Html.DisplayFor(x => album, "AlbumLink")
         </li>
     }
 </ul>
