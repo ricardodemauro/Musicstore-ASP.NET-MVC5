@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Infrastructure;
 using MusicStore.WebHost.Models;
 using MusicStore.WebHost.Repositories;
+using System;
+using MusicStore.SiteMap.Extensions.DependencyInjection;
 
 namespace MusicStore.WebHost
 {
@@ -41,7 +38,6 @@ namespace MusicStore.WebHost
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContextPool<MusicStoreDbContext>(opts => opts.UseSqlServer(connectionString));
 
@@ -61,6 +57,8 @@ namespace MusicStore.WebHost
             services.AddOptions();
 
             services.AddHttpContextAccessor();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
             services.AddTransient<ISessionProvider, HttpSessionProvider>();
             services.AddTransient<IClaimsPrincipalProvider, HttpClaimsPrincipalProvider>();
 
@@ -68,6 +66,29 @@ namespace MusicStore.WebHost
             services.AddTransient<IAlbumRepository, EFAlbumRepository>();
             services.AddTransient<IGenreRepository, EFGenreRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
+
+            services.AddScoped(x =>
+            {
+                var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+                var factory = x.GetRequiredService<IUrlHelperFactory>();
+                return factory.GetUrlHelper(actionContext);
+            });
+
+            services.AddFileSiteMapProvider("wwwroot/mvc.sitemap");
+
+            //services.Configure<FileMapProviderOptions>(ctx =>
+            //{
+            //    ctx.File = "wwwroot/mvc.sitemap";
+            //});
+
+            //services.AddScoped<SiteMapProvider>(ctx =>
+            //{
+            //    return new FileSiteMapProvider(ctx.GetService<IOptions<FileMapProviderOptions>>(),
+            //        ctx.GetService<IHostingEnvironment>().ContentRootFileProvider,
+            //        ctx.GetService<IUrlHelper>());
+            //});
+
+            //services.Configure<RazorViewEngineOptions>
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

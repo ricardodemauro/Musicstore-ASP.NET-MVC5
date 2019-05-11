@@ -6,11 +6,25 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\MvcSiteMapSchema.xsd" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="wwwroot\MvcSiteMapSchema.xsd" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\MusicStore.SiteMap\MusicStore.SiteMap.csproj" />
   </ItemGroup>
 
 </Project>
