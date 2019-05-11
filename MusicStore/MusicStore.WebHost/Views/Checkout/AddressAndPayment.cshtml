@@ -1,0 +1,29 @@
+﻿@model Order
+
+@{
+    ViewBag.Title = "AddressAndPayment";
+}
+
+<form asp-action="AddressAndPayment" asp-antiforgery="true">
+    <h2>Address And Payment</h2>
+    <fieldset>
+        <legend>Shipping Information</legend>
+        @Html.EditorForModel()
+    </fieldset>
+    <fieldset>
+        <legend>Payment</legend>
+        <p>We're running a promotion: all music is free with the promo code: "FREE"</p>
+        <div class="editor-label">
+            <label asp-for="PromoCode" />
+        </div>
+        <div class="editor-field">
+            <input asp-for="PromoCode" />
+        </div>
+    </fieldset>
+    <input type="submit" value="Submit Order" />
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

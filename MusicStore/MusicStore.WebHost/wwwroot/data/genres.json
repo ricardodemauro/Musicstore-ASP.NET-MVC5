@@ -1,0 +1,12 @@
+[
+  { "name": "Rock" },
+  { "name": "Jazz" },
+  { "name": "Metal" },
+  { "name": "Alternative" },
+  { "name": "Disco" },
+  { "name": "Blues" },
+  { "name": "Latin" },
+  { "name": "Reggae" },
+  { "name": "Pop" },
+  { "name": "Classical" }
+]

@@ -1,0 +1,33 @@
+﻿@using MusicStore.SiteMap.Models
+@using Microsoft.AspNetCore.Html
+
+@model SiteMapNode
+
+@functions
+{
+    string CreateAnchor(SiteMapNode node)
+    {
+        return $"<a href=\"{@node.Uri}\" class=\"{ViewData["aClass"]}\">{@node.Title}</a>";
+    }
+
+    IHtmlContent RenderListItemNode(SiteMapNode node)
+    {
+        return Html.Raw($"<li class=\"{ViewData["liClass"]}\">{CreateAnchor(node)}</li>");
+    }
+}
+
+
+<ul class="@ViewData["ulClass"]">
+    @RenderListItemNode(Model)
+    @foreach (SiteMapNode node in Model.Childrens)
+    {
+        @RenderListItemNode(node)
+        if (node.Childrens.Count > 0)
+        {
+            foreach (var childNode in node.Childrens)
+            {
+                @RenderListItemNode(childNode)
+            }
+        }
+    }
+</ul>

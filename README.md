@@ -4,15 +4,15 @@
 
 ## Tools ##
 
-* VS2013
+* VS2017/VS2019
 
-* Nuget
+* dotnet core
 
 ## Framework ##
 
-* ASP.NET MVC5
+* ASP.NET MVC Core
 
-* EntityFramework 6(code first)
+* EntityFramework Core (code first with fluent)
 
 ### licence ###
 
@@ -20,8 +20,12 @@
 
 ## About author
 ```javascript
-  var author = {
+  var authors = [{
+    nickName  : "Ricardo Mauro",
+    email : "ricardo.demauro@gmail.com"
+  },
+  {
     nickName  : "RanRanDemo",
     email : "ranrandemo@gmail.com"
-  }
+  }]
 ```

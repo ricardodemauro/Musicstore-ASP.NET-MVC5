@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Album>
+@{
+    ViewBag.Title = "Index";
+}
+
+<section id="promotion"></section>
+
+<h3><em>Fresh</em> off the grill</h3>
+
+<ul class="albums-list">
+    @foreach (var album in @Model)
+    {
+        <li>
+            @Html.DisplayFor(x => album, "AlbumLink")
+        </li>
+    }
+</ul>

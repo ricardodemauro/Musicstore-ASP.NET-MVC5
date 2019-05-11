@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Genre>
+
+<ul class="categories">
+    @foreach (var genre in Model)
+    {
+        <li>
+            <a asp-controller="Store" asp-action="Browse" asp-route-genreName="@genre.Name" asp-area="">@genre.Name</a>
+        </li>
+    }
+</ul>
