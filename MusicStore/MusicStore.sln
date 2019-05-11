@@ -14,6 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9AFC3DAC-C59A-4DD0-9966-7E865D517DF4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EF99373-ED57-4028-A4CC-2469E6D68ECD}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{DC1EDF98-9CA6-4FB5-9081-405B11B4C115}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{25AE3203
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicStore.DbSeed", "MusicStore.DbSeed\MusicStore.DbSeed.csproj", "{FF275F5F-BEBC-41CC-A9A8-584625906227}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStore.SiteMap", "MusicStore.SiteMap\MusicStore.SiteMap.csproj", "{D671D513-A711-4DDF-9A2B-0409FE709517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicStore.SiteMap", "MusicStore.SiteMap\MusicStore.SiteMap.csproj", "{D671D513-A711-4DDF-9A2B-0409FE709517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
