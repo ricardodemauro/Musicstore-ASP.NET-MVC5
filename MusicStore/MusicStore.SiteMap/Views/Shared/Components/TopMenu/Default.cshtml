@@ -7,17 +7,17 @@
 {
     string CreateAnchor(SiteMapNode node)
     {
-        return $"<a href=\"{@node.Uri}\" class=\"nav-link\">{@node.Title}</a>";
+        return $"<a href=\"{@node.Uri}\" class=\"{ViewData["aClass"]}\">{@node.Title}</a>";
     }
 
     IHtmlContent RenderListItemNode(SiteMapNode node)
     {
-        return Html.Raw($"<li class=\"nav-item\">{CreateAnchor(node)}</li>");
+        return Html.Raw($"<li class=\"{ViewData["liClass"]}\">{CreateAnchor(node)}</li>");
     }
 }
 
 
-<ul class="nav navbar-nav navbar-right">
+<ul class="@ViewData["ulClass"]">
     @RenderListItemNode(Model)
     @foreach (SiteMapNode node in Model.Childrens)
     {

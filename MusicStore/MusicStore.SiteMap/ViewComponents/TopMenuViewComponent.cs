@@ -16,8 +16,12 @@ namespace MusicStore.SiteMap.ViewComponents
             _sitemapProvider = sitemapProvider ?? throw new ArgumentNullException(nameof(sitemapProvider));
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string ulClass, string liClass, string aClass)
         {
+            ViewData["ulClass"] = ulClass;
+            ViewData["liClass"] = liClass;
+            ViewData["aClass"] = aClass;
+
             return View(_sitemapProvider.SiteMap);
         }
     }
