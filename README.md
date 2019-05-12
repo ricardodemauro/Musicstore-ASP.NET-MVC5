@@ -14,15 +14,46 @@
 
 * EntityFramework Core (code first with fluent)
 
+* Bootstrap 4
+
+### Cool features ###
+
+* Bootstrap 4
+
+* Localization (based on Resource files, StringLocalizar, HtmlString localizer)
+
+* Entity Framework Core
+
+* SiteMap beginners implementation
+
+* Top menu based on SiteMap
+
+* Areas
+
+* ViewComponents
+
+* Partial Views
+
+* MVC Url Parameter Transformer
+
+* Session Provider
+
+* Claims Principal Provider
+
+* Authentication and Authorization based on Policies
+
+* Repository Pattern
+
 ### licence ###
 
-* none
+* MIT
 
 ## About author
 ```javascript
   var authors = [{
     nickName  : "Ricardo Mauro",
-    email : "ricardo.demauro@gmail.com"
+    email : "ricardo.demauro@gmail.com",
+    twitter: "https://twitter.com/RicardoDeMauro"
   },
   {
     nickName  : "RanRanDemo",
