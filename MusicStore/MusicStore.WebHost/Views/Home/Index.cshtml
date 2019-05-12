@@ -3,13 +3,20 @@
     ViewBag.Title = "Index";
 }
 
-<h3><em>Fresh</em> off the grill</h3>
-
-<ul class="albums-list">
-    @foreach (var album in @Model)
-    {
-        <li>
-            @Html.DisplayFor(x => album, "AlbumLink")
-        </li>
-    }
-</ul>
+<div class="container-fluid genre">
+    <div class="row">
+        <h2>
+            <em>Fresh</em> off the grill
+        </h2>
+    </div>
+    <div class="row">
+        <ul class="list-unstyled">
+            @foreach (var album in @Model)
+            {
+                <li>
+                    @Html.DisplayFor(x => album, "AlbumLink")
+                </li>
+            }
+        </ul>
+    </div>
+</div>

@@ -56,7 +56,7 @@ namespace MusicStore.WebHost.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("api/[controller]/[action]/{id:guid}")]
+        [HttpDelete("/api/removeFromCart/{id?}")]
         public async Task<IActionResult> RemoveFromCart([FromRoute] Guid? id, [FromServices] MusicStoreDbContext dbContext, CancellationToken cancellationToken = default)
         {
             if (!id.HasValue || id.Value == Guid.Empty)
@@ -65,6 +65,7 @@ namespace MusicStore.WebHost.Controllers
 
             // Get the name of the album to display confirmation
             Cart cartRecord = await dbContext.Carts
+                                        .Include(x => x.Album)
                                         .SingleAsync(item => item.RecordId == id.Value);
 
             string albumName = cartRecord.Album.Title;
@@ -84,6 +85,13 @@ namespace MusicStore.WebHost.Controllers
                 DeleteId = id.Value
             };
             return Json(results);
+        }
+
+        [HttpGet("api/getTotal")]
+        public async Task<IActionResult> GetTotal(CancellationToken cancellationToken = default)
+        {
+            decimal total = await _shoppingCart.GetTotal();
+            return PartialView("_TotalCart", total);
         }
     }
 }

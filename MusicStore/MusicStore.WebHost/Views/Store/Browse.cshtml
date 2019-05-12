@@ -11,10 +11,10 @@
         </h2>
     </div>
     <div class="row">
-        <ul class="list-group list-group-flush albums-list ">
+        <ul class="list-unstyled">
             @foreach (var album in Model)
             {
-                <li class="list-group-item">
+                <li class="media">
                     <!--newer version using display templates-->
                     @Html.DisplayFor(m => album, "AlbumLink")
                 </li>

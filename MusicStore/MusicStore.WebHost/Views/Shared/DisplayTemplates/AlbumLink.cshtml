@@ -1,6 +1,9 @@
 ﻿@model Album
 
-<a asp-action="Details" asp-controller="store" asp-route-id="@Model.AlbumId">
-    <img alt="@Model.Title" src="@Model.AlbumArtUrl" />
-    <span>@Model.Title</span>
+<a asp-action="Details" asp-controller="store" asp-route-id="@Model.AlbumId" class="media">
+    <img alt="@Model.Title" src="@Model.AlbumArtUrl" class="mr-3" />
+    <div class="media-body">
+        <h5 class="mt-0">@Model.Title</h5>
+        <p>@Html.DisplayFor(m => m.Price)</p>
+    </div>
 </a>
