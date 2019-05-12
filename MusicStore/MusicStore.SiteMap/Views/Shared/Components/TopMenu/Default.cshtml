@@ -1,16 +1,28 @@
 ﻿@using MusicStore.SiteMap.Models
 @using Microsoft.AspNetCore.Html
 @using Microsoft.AspNetCore.Authorization
+@using MusicStore.SiteMap.Localizations
+@using MusicStore.SiteMap.Options
+@using Microsoft.Extensions.Options
 
 @inject IAuthorizationService AuthorizationService
+@inject SiteMapLocalization SiteMapLocalization
+@inject IOptions<FileMapProviderOptions> options
 
 @model SiteMapNode
 
 @functions
 {
+    string GetLocalizedString(string key, string fallback)
+    {
+        if (string.IsNullOrEmpty(key) || !options.Value.UseLocalization || SiteMapLocalization.Localizer[key].ResourceNotFound)
+            return fallback;
+        return SiteMapLocalization.Localizer[key].Value;
+    }
+
     string CreateAnchor(SiteMapNode node)
     {
-        return $"<a href=\"{@node.Uri}\" class=\"{ViewData["aClass"]}\">{@node.Title}</a>";
+        return $"<a href=\"{@node.Uri}\" class=\"{ViewData["aClass"]}\">{@GetLocalizedString(node.LocalizationKey, node.Title)}</a>";
     }
 
     async Task<IHtmlContent> RenderListItemNode(SiteMapNode node)

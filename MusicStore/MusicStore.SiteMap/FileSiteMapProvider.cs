@@ -86,8 +86,8 @@ namespace MusicStore.SiteMap
 
                                 node.Uri = _urlHelper.Action(action: action, controller: controller, values: new { area = area });
 
-                                string authPolicy = xmlReader.GetAttribute("policy");
-                                node.AuthorizationPolicy = authPolicy;
+                                node.AuthorizationPolicy = xmlReader.GetAttribute("policy");
+                                node.LocalizationKey = xmlReader.GetAttribute("loc");
 
                                 if (xmlReader.IsEmptyElement)
                                     node = node.Parent;

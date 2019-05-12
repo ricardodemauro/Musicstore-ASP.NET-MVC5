@@ -104,7 +104,11 @@ namespace MusicStore.WebHost
                 return factory.GetUrlHelper(actionContext);
             });
 
-            services.AddFileSiteMapProvider("wwwroot/mvc.sitemap");
+            services.AddFileSiteMapProvider(opts =>
+            {
+                opts.File = "wwwroot/mvc.sitemap";
+                opts.ResourceName = "SiteMap";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

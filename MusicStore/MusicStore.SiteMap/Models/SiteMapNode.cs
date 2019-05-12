@@ -12,6 +12,8 @@ namespace MusicStore.SiteMap.Models
 
         public string AuthorizationPolicy { get; set; }
 
+        public string LocalizationKey { get; set; }
+
         public SiteMapNode Parent { get; set; }
 
         public IList<SiteMapNode> Childrens { get; private set; }
