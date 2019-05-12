@@ -1,0 +1,18 @@
+﻿@model IReadOnlyList<UserViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Users - <em>Fresh</em> off the grill</h3>
+<div class="container">
+    <ul class="list-group list-group-flush">
+        @foreach (var user in @Model)
+        {
+            <li class="list-group-item">@user.Email</li>
+        }
+    </ul>
+</div>
+<div class="container">
+    <a asp-action="CreateUser" class="btn btn-primary" role="button">Create</a>
+</div>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace MusicStore.WebHost.Models
         public string Username { get; set; }
 
         [ScaffoldColumn(false)]
-        public System.DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }
 
         [Required(ErrorMessage = "First Name is required")]
         [DisplayName("First Name")]
@@ -53,7 +54,7 @@ namespace MusicStore.WebHost.Models
 
         [Required(ErrorMessage = "Email Address is required")]
         [DisplayName("Email Address")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Email is is not valid.")]
+        [EmailAddress]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
@@ -62,6 +63,7 @@ namespace MusicStore.WebHost.Models
 
         public virtual Collection<OrderDetail> OrderDetails { get; set; }
 
+        [ScaffoldColumn(false)]
         public string PromoCode { get; set; }
     }
 }

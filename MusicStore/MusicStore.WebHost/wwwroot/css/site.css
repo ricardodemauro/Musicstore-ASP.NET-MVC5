@@ -55,9 +55,9 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-main {
+/*main {
     float: left;
-}
+}*/
 
 .albums-list {
     list-style-type: none;
@@ -68,7 +68,7 @@ main {
     border-right: #5d5a53 1px dotted;
     padding-right: 10px;
     margin: 0 25px 0 0;
-    float: left;
+    /*float: left;*/
 }
 
     .categories a:link, .categories a:visited {

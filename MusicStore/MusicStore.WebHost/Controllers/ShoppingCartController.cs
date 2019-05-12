@@ -55,19 +55,22 @@ namespace MusicStore.WebHost.Controllers
             // Go back to the main store page for more shopping
             return RedirectToAction("Index");
         }
-        //
-        // AJAX: /ShoppingCart/RemoveFromCart/5
-        [HttpPost]
-        public async Task<IActionResult> RemoveFromCart([FromRoute] int id, [FromServices] MusicStoreDbContext dbContext, CancellationToken cancellationToken = default)
+
+        [HttpGet("api/[controller]/[action]/{id:int}")]
+        public async Task<IActionResult> RemoveFromCart([FromRoute] int? id, [FromServices] MusicStoreDbContext dbContext, CancellationToken cancellationToken = default)
         {
+            if (!id.HasValue || id.Value == 0)
+                return BadRequest();
+
+
             // Get the name of the album to display confirmation
             Cart cartRecord = await dbContext.Carts
-                                        .SingleAsync(item => item.RecordId == id);
+                                        .SingleAsync(item => item.RecordId == id.Value);
 
             string albumName = cartRecord.Album.Title;
 
             // Remove from cart
-            int itemCount = await _shoppingCart.RemoveFromCart(id, cancellationToken);
+            int itemCount = await _shoppingCart.RemoveFromCart(id.Value, cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -78,7 +81,7 @@ namespace MusicStore.WebHost.Controllers
                 CartTotal = await _shoppingCart.GetTotal(),
                 CartCount = await _shoppingCart.GetCount(),
                 ItemCount = itemCount,
-                DeleteId = id
+                DeleteId = id.Value
             };
             return Json(results);
         }

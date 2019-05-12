@@ -24,6 +24,11 @@ namespace MusicStore.WebHost.Controllers
         {
             // Get most popular albums
             var albums = await albumRepository.GetTopSellingAlbums(5);
+
+            //todo verify a better place to put this
+            if (albums == null || albums.Count == 0)
+                return RedirectToAction(actionName: "Index", controllerName: "Home", routeValues: new { Area = "Setup" });
+
             return View(albums);
         }
 

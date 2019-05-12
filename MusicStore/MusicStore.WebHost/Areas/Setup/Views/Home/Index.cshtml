@@ -4,17 +4,17 @@
 
 <h1>Setup Area</h1>
 
-<p>Select your destiny</p>
+<p>Welcome young padawan. Please select your destiny.</p>
 
 <ul>
     <li>
-        @Html.ActionLink("Roles", "Roles")
-    </li>
-    <li>
-        <a asp-action="CreateUser" asp-controller="Home" asp-area="Setup">Create Admin</a>
+        <a asp-action="Index" asp-controller="Users" asp-area="Setup">Users</a>
     </li>
     <li>
         <a asp-action="Index" asp-controller="DatabaseSeed" asp-area="Setup">Db Seed</a>
+    </li>
+    <li>
+        <a asp-action="Index" asp-controller="Roles" asp-area="Setup">Roles</a>
     </li>
 </ul>
 

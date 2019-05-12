@@ -1,0 +1,14 @@
+﻿@model IReadOnlyList<RoleViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Roles - <em>Fresh</em> off the grill</h3>
+
+<ul class="list-group list-group-flush">
+    @foreach (var role in @Model)
+    {
+        <li class="list-group-item">@role.Name</li>
+    }
+</ul>

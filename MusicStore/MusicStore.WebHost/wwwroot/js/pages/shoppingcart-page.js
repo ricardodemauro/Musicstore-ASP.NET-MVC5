@@ -9,15 +9,12 @@
                 "Content-Type": "application/json"
             };
 
-            const body = { id: recordDelete };
-
             const ajaxOptions = {
-                method: 'POST',
-                headers: defaultHeaders,
-                body: JSON.stringify(body)
+                method: 'GET',
+                headers: defaultHeaders
             };
 
-            fetch("/ShoppingCart/RemoveFromCart", ajaxOptions)
+            fetch(`api/shoppingCart/removeFromCart/${recordDelete}`, ajaxOptions)
                 .then(response => response.json())
                 .then(data => {
                     // Successful requests get here

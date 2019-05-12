@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MusicStore.SiteMap.Extensions.DependencyInjection;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Infrastructure;
+using MusicStore.WebHost.Infrastructure.MVC;
 using MusicStore.WebHost.Infrastructure.Providers;
 using MusicStore.WebHost.Models;
 using MusicStore.WebHost.Repositories;
@@ -37,7 +39,11 @@ namespace MusicStore.WebHost
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(opts =>
+            {
+                opts.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContextPool<MusicStoreDbContext>(opts => opts.UseSqlServer(connectionString));

@@ -13,14 +13,14 @@
     <fieldset>
         <legend>Payment</legend>
         <p>We're running a promotion: all music is free with the promo code: "FREE"</p>
-        <div class="editor-label">
-            <label asp-for="PromoCode" />
-        </div>
-        <div class="editor-field">
-            <input asp-for="PromoCode" />
+
+        <div class="form-group">
+            <label asp-for="PromoCode"></label>
+            <input asp-for="PromoCode" class="form-control" />
+            <span asp-validation-for="PromoCode" class="text-danger"></span>
         </div>
     </fieldset>
-    <input type="submit" value="Submit Order" />
+    <button type="submit" class="btn btn-primary">Submit Order</button>
 </form>
 
 @section Scripts
