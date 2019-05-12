@@ -61,21 +61,6 @@ namespace MusicStore.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cart",
-                columns: table => new
-                {
-                    RecordId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CartId = table.Column<string>(nullable: true),
-                    Count = table.Column<int>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Record", x => x.RecordId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Genre",
                 columns: table => new
                 {
@@ -250,6 +235,27 @@ namespace MusicStore.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cart",
+                columns: table => new
+                {
+                    RecordId = table.Column<Guid>(nullable: false),
+                    CartId = table.Column<string>(nullable: true),
+                    AlbumId = table.Column<int>(nullable: false),
+                    Count = table.Column<int>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Record", x => x.RecordId);
+                    table.ForeignKey(
+                        name: "FK_Cart_Album_AlbumId",
+                        column: x => x.AlbumId,
+                        principalTable: "Album",
+                        principalColumn: "AlbumId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderDetail",
                 columns: table => new
                 {
@@ -325,6 +331,11 @@ namespace MusicStore.WebHost.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_AlbumId",
+                table: "Cart",
+                column: "AlbumId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetail_AlbumId",

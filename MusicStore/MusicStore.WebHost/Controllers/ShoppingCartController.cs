@@ -55,19 +55,23 @@ namespace MusicStore.WebHost.Controllers
             // Go back to the main store page for more shopping
             return RedirectToAction("Index");
         }
-        //
-        // AJAX: /ShoppingCart/RemoveFromCart/5
-        [HttpPost]
-        public async Task<IActionResult> RemoveFromCart([FromRoute] int id, [FromServices] MusicStoreDbContext dbContext, CancellationToken cancellationToken = default)
+
+        [HttpDelete("/api/removeFromCart/{id?}")]
+        public async Task<IActionResult> RemoveFromCart([FromRoute] Guid? id, [FromServices] MusicStoreDbContext dbContext, CancellationToken cancellationToken = default)
         {
+            if (!id.HasValue || id.Value == Guid.Empty)
+                return BadRequest();
+
+
             // Get the name of the album to display confirmation
             Cart cartRecord = await dbContext.Carts
-                                        .SingleAsync(item => item.RecordId == id);
+                                        .Include(x => x.Album)
+                                        .SingleAsync(item => item.RecordId == id.Value);
 
             string albumName = cartRecord.Album.Title;
 
             // Remove from cart
-            int itemCount = await _shoppingCart.RemoveFromCart(id, cancellationToken);
+            int itemCount = await _shoppingCart.RemoveFromCart(id.Value, cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -78,17 +82,16 @@ namespace MusicStore.WebHost.Controllers
                 CartTotal = await _shoppingCart.GetTotal(),
                 CartCount = await _shoppingCart.GetCount(),
                 ItemCount = itemCount,
-                DeleteId = id
+                DeleteId = id.Value
             };
             return Json(results);
         }
-        ////
-        //// GET: /ShoppingCart/CartSummary
-        ////[ChildActionOnly]
-        //public ActionResult CartSummary()
-        //{
-        //    ViewData["CartCount"] = _shoppingCart.GetCount();
-        //    return PartialView(shoppingCart);
-        //}
+
+        [HttpGet("api/getTotal")]
+        public async Task<IActionResult> GetTotal(CancellationToken cancellationToken = default)
+        {
+            decimal total = await _shoppingCart.GetTotal();
+            return PartialView("_TotalCart", total);
+        }
     }
 }

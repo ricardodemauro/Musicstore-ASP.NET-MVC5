@@ -5,21 +5,17 @@
 }
 
 <h2>@Model.Title</h2>
-<p>
-    <img alt="@Model.Title" src="@Model.AlbumArtUrl" />
-</p>
-<div id="album-details">
-    <p>
-        <em>Genre:</em>@Model.Genre.Name
-    </p>
-    <p>
-        <em>Artist:</em> @Model.Artist.Name
-    </p>
-    <p>
-        <em>Price:</em> @String.Format("{0:F}", Model.Price)
-    </p>
-    <p class="button">
-        @Html.ActionLink("Add to Cart", "AddToCart", "ShoppingCart", new { id = Model.AlbumId }, "")
-    </p>
-</div>
 
+
+
+<div class="media">
+    <img class="align-self-start mr-3" src="@Model.AlbumArtUrl" alt="@Model.Title">
+    <div class="media-body">
+        <p><em>@Html.DisplayNameFor(m => m.Genre)</em> @Html.DisplayFor(m => m.Genre.Name)</p>
+        <p><em>@Html.DisplayNameFor(m => m.Artist)</em> @Html.DisplayFor(m => m.Artist.Name)</p>
+        <p><em>@Html.DisplayNameFor(m => m.Price)</em> @Html.DisplayFor(m => m.Price)</p>
+        <p>
+            <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-area="" asp-route-id="@Model.AlbumId">Add to Cart</a>
+        </p>
+    </div>
+</div>

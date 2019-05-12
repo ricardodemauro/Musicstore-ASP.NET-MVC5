@@ -138,9 +138,11 @@ namespace MusicStore.WebHost.Migrations
                     b.Property<string>("AlbumArtUrl")
                         .HasMaxLength(1024);
 
-                    b.Property<int>("ArtistId");
+                    b.Property<int?>("ArtistId")
+                        .IsRequired();
 
-                    b.Property<int>("GenreId");
+                    b.Property<int?>("GenreId")
+                        .IsRequired();
 
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
@@ -227,9 +229,8 @@ namespace MusicStore.WebHost.Migrations
 
             modelBuilder.Entity("MusicStore.WebHost.Models.Cart", b =>
                 {
-                    b.Property<int>("RecordId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("RecordId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AlbumId");
 

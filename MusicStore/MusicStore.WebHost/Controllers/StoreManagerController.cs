@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.WebHost.Data;
+using MusicStore.WebHost.Infrastructure;
 using MusicStore.WebHost.Models;
 using MusicStore.WebHost.Repositories;
 using System;
@@ -14,8 +15,7 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Controllers
 {
-    //[Authorize(Roles = "Administrator")]
-    [Authorize]
+    [Authorize(Policy = PolicyNames.ADMIN)]
     public class StoreManagerController : Controller
     {
         private readonly MusicStoreDbContext db;

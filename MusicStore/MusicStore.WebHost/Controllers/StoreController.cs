@@ -25,7 +25,7 @@ namespace MusicStore.Controllers
         }
         //
         // GET: /Store/Browse
-        [Route("[controller]/browse/{genreName}")]
+        [HttpGet("[controller]/[action]/{genreName:required}")]
         public async Task<IActionResult> Browse([FromRoute] string genreName, [FromServices] IGenreRepository genreRepository, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();

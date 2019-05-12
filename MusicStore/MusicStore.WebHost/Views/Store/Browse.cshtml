@@ -3,18 +3,23 @@
 @{
     ViewBag.Title = "Browse Albums";
 }
-<div class="genre">
-    <h3>
-        <em>@ViewData["GenreName"]</em> Albums
-    </h3>
-    <ul class="albums-list">
-        @foreach (var album in Model)
-        {
-            <li>
-                <!--newer version using display templates-->
-                @Html.DisplayFor(m => album, "AlbumLink")
-            </li>
-        }
-    </ul>
+
+<div class="container-fluid genre">
+    <div class="row">
+        <h2>
+            <em>@ViewData["GenreName"]</em> Albums
+        </h2>
+    </div>
+    <div class="row">
+        <ul class="list-unstyled">
+            @foreach (var album in Model)
+            {
+                <li class="media">
+                    <!--newer version using display templates-->
+                    @Html.DisplayFor(m => album, "AlbumLink")
+                </li>
+            }
+        </ul>
+    </div>
 </div>
 

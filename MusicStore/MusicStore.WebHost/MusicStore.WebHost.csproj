@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\MvcSiteMapSchema.xsd" />
+    <None Include="wwwroot\MvcSiteMapSchema.xsd" />
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -18,19 +18,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <None Include="wwwroot\MvcSiteMapSchema.xsd" />
-  </ItemGroup>
-
-
   <ItemGroup>
     <ProjectReference Include="..\MusicStore.SiteMap\MusicStore.SiteMap.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Areas\Setup\Data\" />
   </ItemGroup>
 
 </Project>

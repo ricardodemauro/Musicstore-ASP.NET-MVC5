@@ -9,30 +9,34 @@
                 "Content-Type": "application/json"
             };
 
-            const body = { id: recordDelete };
-
             const ajaxOptions = {
-                method: 'POST',
-                headers: defaultHeaders,
-                body: JSON.stringify(body)
+                method: 'DELETE',
+                headers: defaultHeaders
             };
 
-            fetch("/ShoppingCart/RemoveFromCart", ajaxOptions)
+            fetch(`api/removeFromCart/${recordDelete}`, ajaxOptions)
                 .then(response => response.json())
                 .then(data => {
                     // Successful requests get here
                     // Update the page elements
-                    if (data.ItemCount === 0) {
-                        $('#row-' + data.DeleteId).fadeOut('slow');
+                    if (data.itemCount === 0) {
+                        $('#row-' + data.deleteId).fadeOut('slow');
                     }
                     else {
-                        $('#item-count-' + data.DeleteId).text(data.ItemCount);
+                        $('#item-count-' + data.deleteId).text(data.itemCount);
                     }
-                    $('#cart-total').text(data.CartTotal);
-                    $('#update-message').text(data.Message);
-                    $('#cart-status').text('Cart (' + data.CartCount + ')');
+                    $('#cart-total').html("");
+                    $('#update-message').text(data.message);
+                    $('#cart-status').text('Cart (' + data.cartCount + ')');
+
+                    fetch(`api/getTotal`)
+                        .then(response => response.text())
+                        .then(text => {
+                            $('#cart-total').html(text);
+                        })
+                        .catch(error => console.log('something went wrong calling getTotal', error));
                 })
-                .catch(error => console.log('deu alguma coisa errada', error));
+                .catch(error => console.log('something went wrong calling removeFromCart', error));
         }
     });
 });

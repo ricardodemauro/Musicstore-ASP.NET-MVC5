@@ -11,5 +11,9 @@ namespace MusicStore.SiteMap.Options
     public class FileMapProviderOptions
     {
         public string File { get; set; }
+
+        public string ResourceName { get; set; }
+
+        public bool UseLocalization { get { return !string.IsNullOrEmpty(ResourceName); } }
     }
 }

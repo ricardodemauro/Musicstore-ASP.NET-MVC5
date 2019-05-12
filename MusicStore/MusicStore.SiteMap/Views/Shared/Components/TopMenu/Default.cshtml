@@ -1,32 +1,56 @@
 ﻿@using MusicStore.SiteMap.Models
 @using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Authorization
+@using MusicStore.SiteMap.Localizations
+@using MusicStore.SiteMap.Options
+@using Microsoft.Extensions.Options
+
+@inject IAuthorizationService AuthorizationService
+@inject SiteMapLocalization SiteMapLocalization
+@inject IOptions<FileMapProviderOptions> options
 
 @model SiteMapNode
 
 @functions
 {
-    string CreateAnchor(SiteMapNode node)
+    string GetLocalizedString(string key, string fallback)
     {
-        return $"<a href=\"{@node.Uri}\" class=\"{ViewData["aClass"]}\">{@node.Title}</a>";
+        if (string.IsNullOrEmpty(key) || !options.Value.UseLocalization || SiteMapLocalization.Localizer[key].ResourceNotFound)
+            return fallback;
+        return SiteMapLocalization.Localizer[key].Value;
     }
 
-    IHtmlContent RenderListItemNode(SiteMapNode node)
+    string CreateAnchor(SiteMapNode node)
     {
-        return Html.Raw($"<li class=\"{ViewData["liClass"]}\">{CreateAnchor(node)}</li>");
+        return $"<a href=\"{@node.Uri}\" class=\"{ViewData["aClass"]}\">{@GetLocalizedString(node.LocalizationKey, node.Title)}</a>";
+    }
+
+    async Task<IHtmlContent> RenderListItemNode(SiteMapNode node)
+    {
+        if (string.IsNullOrEmpty(node.AuthorizationPolicy) || (await AuthorizationService.AuthorizeAsync(User, node.AuthorizationPolicy)).Succeeded)
+        {
+            return Html.Raw($"<li class=\"{ViewData["liClass"]}\">{CreateAnchor(node)}</li>");
+        }
+        else
+        {
+            return Html.Raw("");
+        }
     }
 }
 
 
 <ul class="@ViewData["ulClass"]">
-    @RenderListItemNode(Model)
+
+    @await RenderListItemNode(Model)
+
     @foreach (SiteMapNode node in Model.Childrens)
     {
-        @RenderListItemNode(node)
+        @await RenderListItemNode(node)
         if (node.Childrens.Count > 0)
         {
             foreach (var childNode in node.Childrens)
             {
-                @RenderListItemNode(childNode)
+                @await RenderListItemNode(childNode)
             }
         }
     }

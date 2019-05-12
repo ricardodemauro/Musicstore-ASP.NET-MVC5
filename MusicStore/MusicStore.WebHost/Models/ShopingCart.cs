@@ -64,7 +64,7 @@ namespace MusicStore.WebHost.Models
             await _dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<int> RemoveFromCart(int id, CancellationToken cancellationToken = default)
+        public async Task<int> RemoveFromCart(Guid id, CancellationToken cancellationToken = default)
         {
             await PopupaleShoppingCartId(cancellationToken).ConfigureAwait(false);
 

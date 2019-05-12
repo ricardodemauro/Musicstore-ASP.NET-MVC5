@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using MusicStore.SiteMap.Localizations;
 using MusicStore.SiteMap.Options;
 using System;
 using System.Collections.Generic;
@@ -27,16 +28,7 @@ namespace MusicStore.SiteMap.Extensions.DependencyInjection
 
             services.Configure<FileMapProviderOptions>(cfg => cfg.File = fileName);
 
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
-
-            services.TryAddTransient<SiteMapProvider>(ctx =>
-            {
-                return new FileSiteMapProvider(ctx.GetService<IOptions<FileMapProviderOptions>>(),
-                    ctx.GetService<IHostingEnvironment>().ContentRootFileProvider,
-                    ctx.GetService<IUrlHelper>());
-            });
-
-            RegisterViewProvider(services);
+            Register(services);
 
             return services;
         }
@@ -54,6 +46,13 @@ namespace MusicStore.SiteMap.Extensions.DependencyInjection
 
             services.Configure(configure);
 
+            Register(services);
+
+            return services;
+        }
+
+        static void Register(IServiceCollection services)
+        {
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             services.TryAddTransient<SiteMapProvider>(ctx =>
@@ -63,9 +62,9 @@ namespace MusicStore.SiteMap.Extensions.DependencyInjection
                     ctx.GetService<IUrlHelper>());
             });
 
-            RegisterViewProvider(services);
+            services.TryAddScoped<SiteMapLocalization>();
 
-            return services;
+            RegisterViewProvider(services);
         }
 
         static void RegisterViewProvider(IServiceCollection services)
@@ -76,7 +75,6 @@ namespace MusicStore.SiteMap.Extensions.DependencyInjection
             var embeddedFileProvider = new EmbeddedFileProvider(assembly);
 
             services.Configure<RazorViewEngineOptions>(opts => opts.FileProviders.Add(embeddedFileProvider));
-
         }
     }
 }
