@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MusicStore.SiteMap.Extensions.DependencyInjection;
 using MusicStore.WebHost.Data;
 using MusicStore.WebHost.Infrastructure;
@@ -17,6 +20,7 @@ using MusicStore.WebHost.Infrastructure.Providers;
 using MusicStore.WebHost.Models;
 using MusicStore.WebHost.Repositories;
 using System;
+using System.Globalization;
 
 namespace MusicStore.WebHost
 {
@@ -39,10 +43,23 @@ namespace MusicStore.WebHost
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                opts.DefaultRequestCulture = new RequestCulture("en-US");
+                // Formatting numbers, dates, etc.
+                opts.SupportedCultures = new CultureInfo[] { CultureInfo.GetCultureInfo("en-US"), CultureInfo.GetCultureInfo("pt-BR") };
+                // UI strings that we have localized.
+                opts.SupportedUICultures = new CultureInfo[] { CultureInfo.GetCultureInfo("en-US"), CultureInfo.GetCultureInfo("pt-BR") };
+            });
+
             services.AddMvc(opts =>
             {
                 opts.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
             })
+            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            .AddDataAnnotationsLocalization()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             string connectionString = Configuration.GetConnectionString("Default");
@@ -74,7 +91,6 @@ namespace MusicStore.WebHost
             services.AddTransient<ISessionProvider, HttpSessionProvider>();
             services.AddTransient<IClaimsPrincipalProvider, HttpClaimsPrincipalProvider>();
 
-            //services.AddDirectoryBrowser();
             services.AddTransient<IAlbumRepository, EFAlbumRepository>();
             services.AddTransient<IGenreRepository, EFGenreRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
@@ -108,6 +124,9 @@ namespace MusicStore.WebHost
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
 
             app.UseAuthentication();
 
