@@ -1,5 +1,8 @@
 ﻿@using MusicStore.SiteMap.Models
 @using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Authorization
+
+@inject IAuthorizationService AuthorizationService
 
 @model SiteMapNode
 
@@ -10,23 +13,32 @@
         return $"<a href=\"{@node.Uri}\" class=\"{ViewData["aClass"]}\">{@node.Title}</a>";
     }
 
-    IHtmlContent RenderListItemNode(SiteMapNode node)
+    async Task<IHtmlContent> RenderListItemNode(SiteMapNode node)
     {
-        return Html.Raw($"<li class=\"{ViewData["liClass"]}\">{CreateAnchor(node)}</li>");
+        if (string.IsNullOrEmpty(node.AuthorizationPolicy) || (await AuthorizationService.AuthorizeAsync(User, node.AuthorizationPolicy)).Succeeded)
+        {
+            return Html.Raw($"<li class=\"{ViewData["liClass"]}\">{CreateAnchor(node)}</li>");
+        }
+        else
+        {
+            return Html.Raw("");
+        }
     }
 }
 
 
 <ul class="@ViewData["ulClass"]">
-    @RenderListItemNode(Model)
+
+    @await RenderListItemNode(Model)
+
     @foreach (SiteMapNode node in Model.Childrens)
     {
-        @RenderListItemNode(node)
+        @await RenderListItemNode(node)
         if (node.Childrens.Count > 0)
         {
             foreach (var childNode in node.Childrens)
             {
-                @RenderListItemNode(childNode)
+                @await RenderListItemNode(childNode)
             }
         }
     }

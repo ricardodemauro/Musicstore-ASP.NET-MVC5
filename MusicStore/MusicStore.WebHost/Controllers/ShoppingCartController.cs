@@ -56,10 +56,10 @@ namespace MusicStore.WebHost.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("api/[controller]/[action]/{id:int}")]
-        public async Task<IActionResult> RemoveFromCart([FromRoute] int? id, [FromServices] MusicStoreDbContext dbContext, CancellationToken cancellationToken = default)
+        [HttpGet("api/[controller]/[action]/{id:guid}")]
+        public async Task<IActionResult> RemoveFromCart([FromRoute] Guid? id, [FromServices] MusicStoreDbContext dbContext, CancellationToken cancellationToken = default)
         {
-            if (!id.HasValue || id.Value == 0)
+            if (!id.HasValue || id.Value == Guid.Empty)
                 return BadRequest();
 
 
@@ -85,13 +85,5 @@ namespace MusicStore.WebHost.Controllers
             };
             return Json(results);
         }
-        ////
-        //// GET: /ShoppingCart/CartSummary
-        ////[ChildActionOnly]
-        //public ActionResult CartSummary()
-        //{
-        //    ViewData["CartCount"] = _shoppingCart.GetCount();
-        //    return PartialView(shoppingCart);
-        //}
     }
 }

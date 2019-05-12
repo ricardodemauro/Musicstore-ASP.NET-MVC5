@@ -15,6 +15,6 @@ namespace MusicStore.WebHost.ViewModels
 
         public int ItemCount { get; set; }
 
-        public int DeleteId { get; set; }
+        public Guid DeleteId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using MusicStore.SiteMap.Models;
@@ -23,7 +24,9 @@ namespace MusicStore.SiteMap
 
         private readonly object _lock = new object();
 
-        public FileSiteMapProvider(IOptions<FileMapProviderOptions> options, IFileProvider fileProvider, IUrlHelper urlHelper)
+        public FileSiteMapProvider(IOptions<FileMapProviderOptions> options,
+            IFileProvider fileProvider,
+            IUrlHelper urlHelper)
         {
             _fileName = options.Value.File;
             _fileProvider = fileProvider;
@@ -78,8 +81,13 @@ namespace MusicStore.SiteMap
                                 node.Title = xmlReader.GetAttribute("title");
                                 string action = xmlReader.GetAttribute("action");
                                 string controller = xmlReader.GetAttribute("controller");
+                                string area = xmlReader.GetAttribute("area");
 
-                                node.Uri = _urlHelper.Action(action: action, controller: controller);
+
+                                node.Uri = _urlHelper.Action(action: action, controller: controller, values: new { area = area });
+
+                                string authPolicy = xmlReader.GetAttribute("policy");
+                                node.AuthorizationPolicy = authPolicy;
 
                                 if (xmlReader.IsEmptyElement)
                                     node = node.Parent;

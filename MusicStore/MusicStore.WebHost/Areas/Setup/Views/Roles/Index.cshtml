@@ -4,11 +4,21 @@
     ViewBag.Title = "Index";
 }
 
-<h3>Roles - <em>Fresh</em> off the grill</h3>
+<h1>Roles - <em>Fresh</em> off the grill</h1>
+<div class="container">
+    <div class="row">
+        <ul class="list-group list-group-flush">
+            @foreach (var role in @Model)
+            {
+                <li class="list-group-item">@role.Name</li>
+            }
+        </ul>
+    </div>
 
-<ul class="list-group list-group-flush">
-    @foreach (var role in @Model)
-    {
-        <li class="list-group-item">@role.Name</li>
-    }
-</ul>
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-action="Index" asp-controller="Home" asp-area="Setup" class="btn btn-secondary" aria-pressed="true" role="button">Back</a>
+            <a asp-action="Create" class="btn btn-primary" aria-pressed="true" role="button">Create</a>
+        </div>
+    </div>
+</div>

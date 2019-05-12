@@ -10,6 +10,8 @@ namespace MusicStore.SiteMap.Models
 
         public bool IsRoot { get; set; }
 
+        public string AuthorizationPolicy { get; set; }
+
         public SiteMapNode Parent { get; set; }
 
         public IList<SiteMapNode> Childrens { get; private set; }

@@ -8,8 +8,8 @@ namespace MusicStore.WebHost.Models
 {
     public class Cart
     {
-        public int RecordId { get; set; }
-        
+        public Guid RecordId { get; set; }
+
         public string CartId { get; set; }
 
         public int AlbumId { get; set; }
