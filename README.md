@@ -24,7 +24,7 @@
 
 * Entity Framework Core
 
-* SiteMap beginners implementation
+* SiteMap, a beginners implementation... in the future will be better
 
 * Top menu based on SiteMap
 
